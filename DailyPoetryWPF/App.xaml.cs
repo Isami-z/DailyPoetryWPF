@@ -28,7 +28,7 @@ namespace DailyPoetryWPF
             containerRegistry.RegisterForNavigation<RecommendPage>();
 
             containerRegistry.RegisterInstance<IRecommendItemService>(new RecommendItemService());
-            //containerRegistry.RegisterInstance<IBingImageService>(new BingImageService());
+            containerRegistry.RegisterInstance<IBingImageService>(new BingImageService());
             containerRegistry.RegisterInstance<ILocalInfoService>(new LocalInfoService());
             containerRegistry.RegisterInstance<IPoetryService>(new PoetryService());
         }

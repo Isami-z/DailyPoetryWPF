@@ -18,7 +18,7 @@ namespace DailyPoetryWPF.ViewModels
         public DelegateCommand LoadCommand { get; private set; }
 
         private IRecommendItemService recommendItemService;
-        // private IBingImageService bingImageService;
+        private IBingImageService bingImageService;
         private ILocalInfoService localInfoService;
         private IPoetryService poetryService;
 
@@ -63,12 +63,14 @@ namespace DailyPoetryWPF.ViewModels
 
         public RecommendPageViewModel(IRecommendItemService _recommendItemService, 
             ILocalInfoService _localInfoService,
-            IPoetryService _poetryService)
+            IPoetryService _poetryService,
+            IBingImageService _bingImageService)
         {
             poetryService = _poetryService;
             localInfoService = _localInfoService;
             recommendItemService = _recommendItemService;
             LoadCommand = new DelegateCommand(Load);
+            bingImageService = _bingImageService;
         }
 
 
@@ -76,7 +78,7 @@ namespace DailyPoetryWPF.ViewModels
         async void Load()
         {
            
-            //BingImg = await bingImageService.GetBingImageDataAsync();
+            BingImg = await bingImageService.GetBingImageDataAsync();
             LocalInfoData = await localInfoService.GetLocalInfoAsync();
             RecommendItem = await recommendItemService.GetRecommendContentAsync();
             Origin = RecommendItem.origin;
