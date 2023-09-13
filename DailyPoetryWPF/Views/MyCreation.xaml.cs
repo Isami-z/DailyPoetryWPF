@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DailyPoetryWPF
+namespace DailyPoetryWPF.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MyCreation.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MyCreation : Page
     {
-        public MainWindow()
+        public MyCreation()
         {
             InitializeComponent();
         }

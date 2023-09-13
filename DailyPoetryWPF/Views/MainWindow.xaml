@@ -1,0 +1,45 @@
+﻿<Window x:Class="DailyPoetryWPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DailyPoetryWPF"
+        xmlns:prism="http://prismlibrary.com/"
+        mc:Ignorable="d"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="MainWindow"
+        Height="768"
+        Width="1024">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0"
+                Background="#e6e6e6" />
+        <Border Grid.Column="1"
+                Background="#40568d" />
+
+        <StackPanel Grid.Column="0" TextElement.FontSize="18"
+                    Background="#e6e6e6">
+            <Button Content="返回键" />
+            <RadioButton Content="搜索"/>
+            <RadioButton Content="每日推荐" />
+            <RadioButton Content="最近浏览" />
+            <RadioButton>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="横向" />
+                    <TextBlock Text="88" />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton Content="我的创作" />
+            <RadioButton Content="我喜爱的诗词" />
+        </StackPanel>
+        
+        <Frame Grid.Column="1"
+               prism:RegionManager.RegionName="ContentRegion" />
+        <TextBlock x:Name="txt"
+                   FontSize="10"
+                   Grid.Column="1" />
+    </Grid>
+</Window>

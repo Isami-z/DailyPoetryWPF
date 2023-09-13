@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/DailyPoetryWPF/Assets/db.sqlite3
+/ConsoleApp1/ConsoleApp1.csproj
+/DailyPoetryWPF.Services/Assets/db.sqlite3
