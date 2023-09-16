@@ -24,5 +24,22 @@ namespace DailyPoetryWPF.Views
         {
             InitializeComponent();
         }
+        
+
+        // 展开收起按钮的图形改变
+        private void ChevronButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ChevronIcon.Text == "\uE70E") // xaml 和 c# 表示十六进制不一样
+            {
+                ChevronIcon.Text = "\uE70D";
+                ChevronText.Text = "展开";
+            }
+            else
+            {
+                ChevronIcon.Text = "\uE70E";
+                ChevronText.Text = "收起";
+            }
+            AddButton.IsEnabled = !AddButton.IsEnabled;
+        }
     }
 }

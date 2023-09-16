@@ -24,8 +24,14 @@ namespace DailyPoetryWPF
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<MainWindow>();
-            containerRegistry.RegisterForNavigation<RecommendPage>();
+            containerRegistry.RegisterForNavigation<MainWindow>("MainWindow");
+            containerRegistry.RegisterForNavigation<RecommendPage>("RecommendPage");
+            containerRegistry.RegisterForNavigation<DetailPage>("DetailPage");
+            containerRegistry.RegisterForNavigation<SearchResultPage>("SearchResultPage");
+            containerRegistry.RegisterForNavigation<MyFavoritePage>("MyFavoritePage");
+            containerRegistry.RegisterForNavigation<RecentViewPage>("RecentViewPage");
+            containerRegistry.RegisterForNavigation<SettingsPage>("SettingsPage");
+            containerRegistry.RegisterForNavigation<MyCreation>("MyCreation");
 
             containerRegistry.RegisterInstance<IRecommendItemService>(new RecommendItemService());
             containerRegistry.RegisterInstance<IBingImageService>(new BingImageService());

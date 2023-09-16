@@ -9,6 +9,7 @@
       Title="MyFavoritePage">
 
     <Grid>
-        
+        <TextBlock FontSize="32"
+                   Text="我的最爱" />
     </Grid>
 </Page>

@@ -9,6 +9,7 @@
       Title="MyCreation">
 
     <Grid>
-        
+        <TextBlock FontSize="32"
+                   Text="我的创作" />
     </Grid>
 </Page>

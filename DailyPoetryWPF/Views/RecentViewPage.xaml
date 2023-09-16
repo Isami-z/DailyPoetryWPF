@@ -9,6 +9,7 @@
       Title="RecentViewPage">
 
     <Grid>
-        
+        <TextBlock FontSize="32"
+                   Text="最近浏览" />
     </Grid>
 </Page>

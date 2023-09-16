@@ -5,41 +5,237 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DailyPoetryWPF"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="MainWindow"
+        Title="{Binding Title}"
         Height="768"
         Width="1024">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+        <Style x:Key="ReturnButton"
+               TargetType="Button">
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="BorderBrush"
+                    Value="Transparent" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Left" />
+            <Setter Property="Margin"
+                    Value="5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Width="30"
+                                Height="30">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+                    <Setter Property="Background"
+                            Value="#1000" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="IconText"
+               TargetType="TextBlock">
+            <Setter Property="FontFamily"
+                    Value="Segoe MDL2 Assets" />
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Margin"
+                    Value="5,0,5,0" />
+        </Style>
+
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2"
+                                   StrokeDashArray="1 2"
+                                   Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                   SnapsToDevicePixels="true"
+                                   StrokeThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14,0,0,0"
+                                   StrokeDashArray="1 2"
+                                   Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                   SnapsToDevicePixels="true"
+                                   StrokeThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <SolidColorBrush x:Key="RadioButton.Static.Background"
+                         Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="RadioButton.Static.Border"
+                         Color="#FF707070" />
+        <SolidColorBrush x:Key="RadioButton.Static.Glyph"
+                         Color="#FF212121" />
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Background"
+                         Color="#FFF3F9FF" />
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Border"
+                         Color="#FF5593FF" />
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Glyph"
+                         Color="#FF212121" />
+        <SolidColorBrush x:Key="RadioButton.Pressed.Background"
+                         Color="#FFD9ECFF" />
+        <SolidColorBrush x:Key="RadioButton.Pressed.Border"
+                         Color="#FF3C77DD" />
+        <SolidColorBrush x:Key="RadioButton.Pressed.Glyph"
+                         Color="#FF212121" />
+        <SolidColorBrush x:Key="RadioButton.Disabled.Background"
+                         Color="#FFE6E6E6" />
+        <SolidColorBrush x:Key="RadioButton.Disabled.Border"
+                         Color="#FFBCBCBC" />
+        <SolidColorBrush x:Key="RadioButton.Disabled.Glyph"
+                         Color="#FF707070" />
+        <Style x:Key="NavigationButton"
+               TargetType="{x:Type RadioButton}">
+            <Setter Property="FocusVisualStyle"
+                    Value="{StaticResource FocusVisual}" />
+            <Setter Property="Background"
+                    Value="{StaticResource RadioButton.Static.Background}" />
+            <Setter Property="BorderBrush"
+                    Value="{StaticResource RadioButton.Static.Border}" />
+            <Setter Property="Foreground"
+                    Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderThickness"
+                    Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid x:Name="templateRoot"
+                              Background="Transparent"
+                              SnapsToDevicePixels="True"
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                              Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Name="contentPresenter"
+                                              Grid.Column="1"
+                                              Focusable="False"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="160" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0"
                 Background="#e6e6e6" />
-        <Border Grid.Column="1"
-                Background="#40568d" />
+        
 
-        <StackPanel Grid.Column="0" TextElement.FontSize="18"
+        <StackPanel Grid.Column="0"
+                    TextElement.FontSize="18"
                     Background="#e6e6e6">
-            <Button Content="返回键" />
-            <RadioButton Content="搜索"/>
-            <RadioButton Content="每日推荐" />
-            <RadioButton Content="最近浏览" />
-            <RadioButton>
+
+            <Button Style="{StaticResource ReturnButton}"
+                    Content="&#xE0A6;"
+                    FontFamily="Segoe MDL2 Assets" />
+            
+            
+            <RadioButton Style="{DynamicResource NavigationButton}"
+                         Command="{Binding NavigateCommand}"
+                         CommandParameter="RecommendPage">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="横向" />
-                    <TextBlock Text="88" />
+                    <TextBlock Style="{StaticResource IconText}"
+                               Text="&#xE80F;" />
+                    <TextBlock Text="每日推荐" />
                 </StackPanel>
             </RadioButton>
-            <RadioButton Content="我的创作" />
-            <RadioButton Content="我喜爱的诗词" />
+            <RadioButton Style="{DynamicResource NavigationButton}"
+                         Command="{Binding NavigateCommand}"
+                         CommandParameter="SearchResultPage">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource IconText}"
+                               Text="&#xE721;" />
+                    <TextBlock Text="搜索" />
+                </StackPanel>
+            </RadioButton>
+            <Separator Margin="5" />
+            <RadioButton Style="{DynamicResource NavigationButton}"
+                         Command="{Binding NavigateCommand}"
+                         CommandParameter="RecentViewPage">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource IconText}"
+                               Text="&#xE81C;" />
+                    <TextBlock Text="最近浏览" />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton Style="{DynamicResource NavigationButton}"
+                         Command="{Binding NavigateCommand}"
+                         CommandParameter="MyCreation">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource IconText}"
+                               Text="&#xEE56;" />
+                    <TextBlock Text="我的创作" />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton Style="{DynamicResource NavigationButton}"
+                         Command="{Binding NavigateCommand}"
+                         CommandParameter="MyFavoritePage">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource IconText}"
+                               Text="&#xE734;" />
+                    <TextBlock Text="我喜爱的诗词" />
+                </StackPanel>
+            </RadioButton>
+
+            <RadioButton Style="{DynamicResource NavigationButton}"
+                         VerticalAlignment="Bottom"
+                         Command="{Binding NavigateCommand}"
+                         CommandParameter="SettingsPage">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource IconText}"
+                               Text="&#xE713;" />
+                    <TextBlock Text="设置" />
+                </StackPanel>
+            </RadioButton>
         </StackPanel>
-        
+
         <Frame Grid.Column="1"
+               NavigationUIVisibility="Hidden"
+               IsHitTestVisible="True"
                prism:RegionManager.RegionName="ContentRegion" />
-        <TextBlock x:Name="txt"
-                   FontSize="10"
-                   Grid.Column="1" />
+
     </Grid>
 </Window>

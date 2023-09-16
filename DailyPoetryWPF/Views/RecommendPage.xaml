@@ -10,7 +10,8 @@
       mc:Ignorable="d"
       d:DesignHeight="768"
       d:DesignWidth="800"
-      Title="RecommendPage">
+      Title="RecommendPage"
+      IsHitTestVisible="True">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadCommand}" />
@@ -21,6 +22,12 @@
             <Setter Property="Foreground"
                     Value="White" />
         </Style>
+        <Style x:Key="TransparentButton" TargetType="Button">
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="BorderBrush"
+                    Value="Transparent" />
+        </Style>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -28,13 +35,11 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <Grid.Background>
-                <ImageBrush ImageSource="{Binding BingImg}" />
-        </Grid.Background>
 
-        <TextBlock Text="{Binding Author.Name}" />
-        <TextBlock x:Name="PoetryContentArea"
+        <Grid.Background>
+            <ImageBrush ImageSource="{Binding BingImg}" />
+        </Grid.Background>
+        <TextBlock x:Name="PoetryContentArea" Grid.Row="0"
             Text="{Binding RecommendItem.content}"
                    FontSize="38"
                    VerticalAlignment="Bottom"
@@ -83,13 +88,16 @@
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
                 <Button Name="SearchButton"
+                        Style="{StaticResource TransparentButton }"
                         Foreground="White"
                         FontSize="30"
                         Margin="0,0,12,0"
                         FontFamily="Segoe MDL2 Assets"
-                        Content="&#xE761;">
+                        Content="&#xE761;"
+                        Command="{Binding NavigateToDetailCommand}">
                 </Button>
                 <Button Name="ShareButton"
+                        Style="{StaticResource TransparentButton }"
                         Foreground="White"
                         Margin="0,0,8,0"
                         FontSize="30"
@@ -98,5 +106,6 @@
                 </Button>
             </StackPanel>
         </StackPanel>
+    
     </Grid>
 </Page>

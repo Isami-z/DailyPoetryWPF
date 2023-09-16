@@ -33,7 +33,11 @@ namespace DailyPoetryWPF.Services
             if (startdate != null)
             {
                 string fullstartdate = startdate.Value;
-                if (DateTime.ParseExact(fullstartdate, "yyyyMMddHHmm", CultureInfo.CurrentCulture).AddDays(1) > DateTime.Now)
+                if (DateTime.ParseExact(fullstartdate, "yyyyMMddHHmm", CultureInfo.CurrentCulture).AddDays(1) < DateTime.Now)
+                {
+                    return true;
+                }
+                else
                 {
                     return false;
                 }

@@ -22,10 +22,9 @@ namespace DailyPoetryWPF.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(IRegionManager regionManager)
+        public MainWindow()
         {
             InitializeComponent();
-            regionManager.RegisterViewWithRegion("ContentRegion", typeof(RecommendPage));
         }
     }
 }

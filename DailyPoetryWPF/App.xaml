@@ -4,5 +4,9 @@
                         xmlns:local="clr-namespace:DailyPoetryWPF"
                         xmlns:prism="http://prismlibrary.com/">
     <prism:PrismApplication.Resources>
+        <Style TargetType="{x:Type Control}">
+            <Setter Property="FontFamily"
+                    Value="SimSun" />
+        </Style>
     </prism:PrismApplication.Resources>
 </prism:PrismApplication>
