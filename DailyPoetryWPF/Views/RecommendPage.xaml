@@ -94,7 +94,8 @@
                         Margin="0,0,12,0"
                         FontFamily="Segoe MDL2 Assets"
                         Content="&#xE761;"
-                        Command="{Binding NavigateToDetailCommand}">
+                        Command="{Binding NavigateToDetailCommand}"
+                        CommandParameter="{Binding ElementName=PoetryContentArea, Path=Text}">
                 </Button>
                 <Button Name="ShareButton"
                         Style="{StaticResource TransparentButton }"

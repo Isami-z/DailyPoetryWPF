@@ -74,7 +74,9 @@
 
         <DataTemplate x:Key="PoetryListTemplate"
                       DataType="{x:Type model:Work}">
-            <Grid>
+
+
+            <Grid Margin="20,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -82,6 +84,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0"
@@ -98,7 +101,22 @@
                            Margin="10,0,0,0"
                            Grid.Column="1"
                            FontSize="15" />
+
+                <!--<Button Grid.RowSpan="2"
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            FontSize="20"
+            Margin="10,0,0,0"
+            HorizontalContentAlignment="Center"
+            Content="详情页"
+            Command="{Binding DataContext.NavigateToDetailCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+            >
+
+    </Button>-->
             </Grid>
+
+
+
         </DataTemplate>
     </Page.Resources>
     <Grid>
@@ -199,10 +217,24 @@
             </Button>
         </StackPanel>
 
-        <ListView Grid.Row="3"
-                  ItemTemplate="{StaticResource PoetryListTemplate}"
-                  ItemsSource="{Binding PoetryList}">
-
+        <ListView  x:Name="PoetryListView"
+                   Grid.Row="3"
+                   SelectionMode="Single"
+                   ItemTemplate="{StaticResource PoetryListTemplate}"
+                   ItemsSource="{Binding PoetryList}"
+                   MouseDoubleClick="PoetryListView_MouseDoubleClick">
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding NavigateToDetailCommand}"
+                                           CommandParameter="{Binding ElementName=PoetryList, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding NavigateToDetailCommand}"
+                                           CommandParameter="{Binding ElementName=PoetryListView, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </ListView>
 
         <StackPanel Grid.Row="3"
@@ -210,9 +242,15 @@
             <TextBlock Text="无搜索结果"
                        FontSize="30"
                        HorizontalAlignment="Center" />
-            <Button Content="在网络上搜索" HorizontalAlignment="Center"
-                    FontSize="20"
-                    Command="{Binding SearchFromInternetCommand}"/>
+            <Button Content="在网络上搜索"
+                    HorizontalAlignment="Center"
+                    FontSize="20">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:LaunchUriOrFileAction Path="{Binding SearchUrl}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
         </StackPanel>
 
         <Grid Grid.Row="4"
@@ -228,7 +266,7 @@
             <Button Grid.Column="0"
                     Content="上一页"
                     IsEnabled="{Binding PrevButtonEnabled}"
-                    Command="{Binding PrevPageCommand}"/>
+                    Command="{Binding PrevPageCommand}" />
             <Slider Grid.Column="1"
                     Width="300"
                     Minimum="1"
@@ -242,11 +280,11 @@
                 </i:Interaction.Triggers>
             </Slider>
             <TextBlock Grid.Column="2"
-                       Text="{Binding CurrentPage}"/>
+                       Text="{Binding CurrentPage}" />
             <Button Grid.Column="3"
                     Content="下一页"
                     Command="{Binding NextPageCommand}"
-                    IsEnabled="{Binding NextButtonEnabled}"/>
+                    IsEnabled="{Binding NextButtonEnabled}" />
         </Grid>
     </Grid>
 </Page>

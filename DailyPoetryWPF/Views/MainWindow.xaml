@@ -230,6 +230,17 @@
                     <TextBlock Text="设置" />
                 </StackPanel>
             </RadioButton>
+            
+            <RadioButton Style="{DynamicResource NavigationButton}"
+                         VerticalAlignment="Bottom"
+                         Command="{Binding NavigateCommand}"
+                         CommandParameter="DetailPage">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource IconText}"
+                               Text="&#xE713;" />
+                    <TextBlock Text="详情页测试" />
+                </StackPanel>
+            </RadioButton>
         </StackPanel>
 
         <Frame Grid.Column="1"

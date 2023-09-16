@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Common;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,13 +20,28 @@ using System.Windows.Input;
 
 namespace DailyPoetryWPF.ViewModels
 {
-    class SearchResultPageViewModel : BindableBase
+    class SearchResultPageViewModel : BindableBase, INavigationAware
     {
-
+        private readonly IRegionManager regionManager;
         private IPoetryService poetryService;
 
         private List<Work> originalPoetryList;
         private int pageSize = 15;
+
+        public string SearchUrl
+        {
+            get
+            {
+                string query = "";
+                foreach (var item in FilterList)
+                {
+                    query += item.Content;
+                }
+
+                var searchUri = "https://cn.bing.com/search?q=" + query;
+                return searchUri;
+            }
+        }
 
         private int pageCnt;
         public int PageCnt
@@ -163,21 +179,7 @@ namespace DailyPoetryWPF.ViewModels
 
             DoSearch();
 
-            if (PoetryList.Count == 0)
-            {
-                NoResultTipVisibility = true;
-            }
-            else
-            {
-                NoResultTipVisibility = false;
-                PoetryResultVisibility = true;
-                if (PageCnt > 1)
-                {
-                    ResultScrollBarVisibility = true;
-                    PrevButtonEnabled = false;
-                    NextButtonEnabled = true;
-                }
-            }
+            
         }
 
         //public DelegateCommand SearchFromInternetCommand { get; private set; }
@@ -235,6 +237,7 @@ namespace DailyPoetryWPF.ViewModels
 
         private void refreshPageCommand()
         {
+
             if (CurrentPage == 1)
             {
                 PrevButtonEnabled = false;
@@ -251,7 +254,30 @@ namespace DailyPoetryWPF.ViewModels
                 {
                     PoetryList.Add(item);
                 }
+                if (PoetryList.Count == 0)
+                {
+                    NoResultTipVisibility = true;
+                }
+                else
+                {
+                    NoResultTipVisibility = false;
+                    PoetryResultVisibility = true;
+                    if (PageCnt > 1)
+                    {
+                        ResultScrollBarVisibility = true;
+                        PrevButtonEnabled = false;
+                        NextButtonEnabled = true;
+                    }
+                }
             }
+        }
+
+        public DelegateCommand<Work?> NavigateToDetailCommand;
+        public void navigateToDetailCommand(Work? work)
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add("poetry", work);
+            regionManager.RequestNavigate("ContentRegion", "DetailPage", parameters);
         }
 
         private async void DoSearch()
@@ -280,18 +306,40 @@ namespace DailyPoetryWPF.ViewModels
             refreshPageCommand();
         }
 
-        public SearchResultPageViewModel(IPoetryService _poetryService)
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            if (navigationContext.Parameters["content"] != null)
+            {
+                var content = ((string)navigationContext.Parameters["content"]).Trim();
+                var work = originalPoetryList.Where(item => { return item.Content.Contains(content); }).FirstOrDefault();
+                navigateToDetailCommand(work);
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+           
+        }
+
+        public SearchResultPageViewModel(IPoetryService _poetryService,
+            IRegionManager _regionManager)
         {
             poetryService = _poetryService;
-
+            regionManager = _regionManager;
             AddFilterItemCommand = new DelegateCommand(addFilterItemCommand);
             DeleteFilterItemCommand = new DelegateCommand<int?>(deleteFilterItemCommand);
             ChevronCommand = new DelegateCommand(chevronCommand);
             SearchCommand = new DelegateCommand(searchCommand);
             PrevPageCommand = new DelegateCommand(prevPageCommand);
             NextPageCommand = new DelegateCommand(nextPageCommand);
-            SearchFromInternetCommand = new DelegateCommand(searchFromInternetCommand);
+            //SearchFromInternetCommand = new DelegateCommand(searchFromInternetCommand);
             RefreshPageCommand = new DelegateCommand(refreshPageCommand);
+            NavigateToDetailCommand = new DelegateCommand<Work?>(navigateToDetailCommand);
 
             FilterListVisibility = true;
             SimplifiedFilterListVisibility = false;

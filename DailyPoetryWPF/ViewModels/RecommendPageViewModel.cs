@@ -66,11 +66,13 @@ namespace DailyPoetryWPF.ViewModels
             set { SetProperty(ref recommendItem, value); }
         }
 
-        public DelegateCommand NavigateToDetailCommand { get; private set; }
+        public DelegateCommand<string> NavigateToDetailCommand { get; private set; }
 
-        private void NavigateToDetail()
+        private void NavigateToDetail(string content)
         {
-            regionManager.RequestNavigate("ContentRegion", "DetailPage");
+            var parameters = new NavigationParameters();
+            parameters.Add("content", content);
+            regionManager.RequestNavigate("ContentRegion", "SearchResultPage", parameters);
         }
 
         public RecommendPageViewModel(IRecommendItemService _recommendItemService, 
@@ -86,7 +88,7 @@ namespace DailyPoetryWPF.ViewModels
             bingImageService = _bingImageService;
             regionManager = _regionManager;
 
-            NavigateToDetailCommand = new DelegateCommand(NavigateToDetail, CanNavigate);
+            NavigateToDetailCommand = new DelegateCommand<string>(NavigateToDetail);
         }
 
         private bool CanNavigate()

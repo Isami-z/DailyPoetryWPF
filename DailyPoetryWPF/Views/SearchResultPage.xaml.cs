@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DailyPoetryWPF.Models;
+using DailyPoetryWPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +42,12 @@ namespace DailyPoetryWPF.Views
                 ChevronText.Text = "收起";
             }
             AddButton.IsEnabled = !AddButton.IsEnabled;
+        }
+
+        private void PoetryListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((SearchResultPageViewModel)this.DataContext).navigateToDetailCommand((Work)PoetryListView.SelectedItem);
+
         }
     }
 }
