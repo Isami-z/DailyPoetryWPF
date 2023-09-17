@@ -18,6 +18,7 @@ namespace DailyPoetryWPF.ViewModels
         private IPoetryService poetryService;
 
         private Favorite favorite = new Favorite();
+        private RecentView recentView = new RecentView();
 
         private Work poetryItem;
         public Work PoetryItem
@@ -41,12 +42,14 @@ namespace DailyPoetryWPF.ViewModels
         {
             if (IsFavorite == true)
             {
+                favorite.PoetryId = PoetryItem.Id;
                 await poetryService.InsertFavorite(favorite);
             }
             else
             {
                 favorite.PoetryId = PoetryItem.Id;
-                await poetryService.DeleteFavorite(favorite);
+                favorite = await poetryService.IsFavorite((int)favorite.PoetryId);
+                await poetryService.InsertFavorite(favorite);
             }
         }
 
@@ -96,6 +99,7 @@ namespace DailyPoetryWPF.ViewModels
             //在这里处理导航到该页面时的逻辑
             if (navigationContext.Parameters["poetry"] != null)
             {
+
                 PoetryItem = (Work)navigationContext.Parameters["poetry"];
                 poetryItem.Annotation = OptimizeChineseText(poetryItem.Annotation);
                 poetryItem.Translation = OptimizeChineseText(poetryItem.Translation);
@@ -110,6 +114,21 @@ namespace DailyPoetryWPF.ViewModels
                 {
                     IsFavorite = false;
                     favorite = new Favorite();
+                }
+
+                recentView = await poetryService.IsRecent((int)PoetryItem.Id);
+                if (recentView != null)
+                {
+                    await poetryService.DeleteRecent(recentView);
+                    recentView = new RecentView();
+                    recentView.PoetryItemId = PoetryItem.Id;
+                    await poetryService.InsertRecent(recentView);
+                }
+                else
+                {
+                    recentView = new RecentView();
+                    recentView.PoetryItemId = PoetryItem.Id;
+                    await poetryService.InsertRecent(recentView);
                 }
             }
         }

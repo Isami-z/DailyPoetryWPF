@@ -78,5 +78,33 @@ namespace DailyPoetryWPF.Services
                         select a;
             return query.ToList();
         }
+
+        public async Task<RecentView> IsRecent(int id)
+        {
+            RecentView work = await _connection.FindAsync<RecentView>(t => t.PoetryItemId == id);
+            return work;
+        }
+
+        public async Task InsertRecent(RecentView recent)
+        {
+            await _connection.InsertAsync(recent);
+        }
+
+        public async Task DeleteRecent(RecentView recent)
+        {
+            var work = await IsRecent((int)recent.PoetryItemId);
+            await _connection.DeleteAsync(work);
+        }
+
+        public async Task<List<Work>> GetRecentPoetry()
+        {
+            var WorkItems = await _connection.Table<Work>().ToListAsync();
+            var RecnetItems = await _connection.Table<RecentView>().ToListAsync();
+            var query = from a in WorkItems
+                        join b in RecnetItems
+                        on a.Id equals b.PoetryItemId
+                        select a;
+            return query.ToList();
+        }
     }
 }

@@ -48,5 +48,15 @@ namespace DailyPoetryWPF.Views
         {
             ((SearchResultPageViewModel)this.DataContext).navigateToDetailCommand((Work)PoetryListView.SelectedItem);
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = (sender as ComboBox);
+            if (comboBox.Tag == null)
+            {
+                return;
+            }
+            (DataContext as SearchResultPageViewModel).UpdateFilterIndex((int)comboBox.Tag, comboBox.SelectedIndex);
+        }
     }
 }

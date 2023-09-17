@@ -58,7 +58,7 @@ namespace DailyPoetryWPF.Services
             if (shouldUpdate)
             {
                 string strRegion = "zh-CN";
-                string strBingImageURL = $"http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n={1}&mkt={strRegion}";
+                string strBingImageURL = $"https://www.cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n={1}&mkt={strRegion}";
                 var httpClient = new HttpClient();
                 var response = await httpClient.GetAsync(strBingImageURL);
                 string json = await response.Content.ReadAsStringAsync();

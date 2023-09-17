@@ -18,6 +18,12 @@ namespace DailyPoetryWPF.Helpers
             {
                 string baseDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 string databaseName = "db.sqlite3";
+
+                if (!File.Exists(Path.Combine(baseDataDirectory, databaseName)))
+                {
+                    ResourceHelper.ExtractResourceToFile(@"db.sqlite3", Path.Combine(baseDataDirectory, databaseName));
+                }
+
                 conn = new SQLiteAsyncConnection(Path.Combine(baseDataDirectory, databaseName));
                 conn.CreateTableAsync<PreferenceStorage>();
             }

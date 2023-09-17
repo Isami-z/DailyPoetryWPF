@@ -29,10 +29,13 @@
                 <ComboBox Grid.Column="0"
                           FontSize="20"
                           SelectedIndex="1"
-                          Margin="0,0,10,0">
+                          Margin="0,0,10,0"
+                          SelectionChanged="ComboBox_SelectionChanged"
+                          Tag="{Binding Index, Mode=OneWay}">
                     <sys:String>标题</sys:String>
                     <sys:String>内容</sys:String>
                     <sys:String>作者</sys:String>
+                    
                 </ComboBox>
 
                 <TextBox Grid.Column="1"

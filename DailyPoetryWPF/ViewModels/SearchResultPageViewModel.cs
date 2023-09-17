@@ -280,24 +280,27 @@ namespace DailyPoetryWPF.ViewModels
             regionManager.RequestNavigate("ContentRegion", "DetailPage", parameters);
         }
 
-        private async void DoSearch()
+        private async Task DoSearch()
         {
             originalPoetryList = await poetryService.GetWorkList();
             foreach (var item in FilterList)
             {
-                switch (item.Category)
+                if (item.Content != "")
                 {
-                    case FilterCategory.Content:
-                        poetryService.GetPoetryListByContent(ref originalPoetryList, item.Content);
-                        break;
-                    case FilterCategory.Title:
-                        poetryService.GetPoetryListByName(ref originalPoetryList, item.Content);
-                        break;
-                    case FilterCategory.Author:
-                        poetryService.GetPoetryListByAuthor(ref originalPoetryList, item.Content);
-                        break;
-                    default:
-                        break;
+                    switch (item.Category)
+                    {
+                        case FilterCategory.Content:
+                            poetryService.GetPoetryListByContent(ref originalPoetryList, item.Content);
+                            break;
+                        case FilterCategory.Title:
+                            poetryService.GetPoetryListByName(ref originalPoetryList, item.Content);
+                            break;
+                        case FilterCategory.Author:
+                            poetryService.GetPoetryListByAuthor(ref originalPoetryList, item.Content);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             PageCnt = (originalPoetryList.Count + pageSize - 1) / pageSize;
@@ -306,10 +309,12 @@ namespace DailyPoetryWPF.ViewModels
             refreshPageCommand();
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext.Parameters["content"] != null)
             {
+                FilterList.Clear();
+                await DoSearch();
                 var content = ((string)navigationContext.Parameters["content"]).Trim();
                 var work = originalPoetryList.Where(item => { return item.Content.Contains(content); }).FirstOrDefault();
                 navigateToDetailCommand(work);
@@ -324,6 +329,11 @@ namespace DailyPoetryWPF.ViewModels
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
 
+        }
+
+        public void UpdateFilterIndex(int filterIndex, int keychange)
+        {
+            FilterList[filterIndex].Category = (FilterCategory)keychange; 
         }
 
         public SearchResultPageViewModel(IPoetryService _poetryService,
