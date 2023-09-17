@@ -170,7 +170,8 @@
 
             <Button Style="{StaticResource ReturnButton}"
                     Content="&#xE0A6;"
-                    FontFamily="Segoe MDL2 Assets" />
+                    FontFamily="Segoe MDL2 Assets"
+                    Command="{Binding BackCommand}"/>
             
             
             <RadioButton Style="{DynamicResource NavigationButton}"
