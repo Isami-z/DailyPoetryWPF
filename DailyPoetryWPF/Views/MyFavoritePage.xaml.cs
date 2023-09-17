@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DailyPoetryWPF.Models;
+using DailyPoetryWPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,12 @@ namespace DailyPoetryWPF.Views
         public MyFavoritePage()
         {
             InitializeComponent();
+        }
+
+        private void FavoritePoetryList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((MyFavoritePageViewModel)this.DataContext).navigateToDetailCommand((Work)FavoritePoetryList.SelectedItem);
+
         }
     }
 }

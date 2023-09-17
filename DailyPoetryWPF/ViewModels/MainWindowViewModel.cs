@@ -17,7 +17,7 @@ namespace DailyPoetryWPF.ViewModels
     class MainWindowViewModel : BindableBase
     {
         private readonly IRegionManager regionManager;
-        private  IRegionNavigationJournal regionNavigationJournal;
+        private IRegionNavigationJournal regionNavigationJournal;
 
         private string title;
         public string Title
@@ -31,7 +31,7 @@ namespace DailyPoetryWPF.ViewModels
             Title = "今日诗词";
             regionManager = _regionManager;
             LoadCommand = new DelegateCommand(Load);
-            NavigateCommand = new DelegateCommand<string>(navigate); 
+            NavigateCommand = new DelegateCommand<string>(navigate);
             BackCommand = new DelegateCommand(back);
 
             //regionManager.RegisterViewWithRegion("ContentRegion", typeof(RecommendPage));
@@ -39,7 +39,8 @@ namespace DailyPoetryWPF.ViewModels
 
         public DelegateCommand BackCommand { get; private set; }
         void back()
-        { if (regionNavigationJournal != null && regionNavigationJournal.CanGoBack == true)
+        {
+            if (regionNavigationJournal != null && regionNavigationJournal.CanGoBack == true)
             {
                 regionNavigationJournal.GoBack();
 
@@ -60,7 +61,7 @@ namespace DailyPoetryWPF.ViewModels
 
 
         public DelegateCommand LoadCommand { get; private set; }
-        async void Load()
+        void Load()
         {
             regionManager.AddToRegion("ContentRegion", "RecommendPage");
             regionManager.AddToRegion("ContentRegion", "DetailPage");

@@ -26,7 +26,7 @@ namespace DailyPoetryWPF.Views
         {
             InitializeComponent();
         }
-        
+
 
         // 展开收起按钮的图形改变
         private void ChevronButton_Click(object sender, RoutedEventArgs e)
@@ -47,7 +47,6 @@ namespace DailyPoetryWPF.Views
         private void PoetryListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ((SearchResultPageViewModel)this.DataContext).navigateToDetailCommand((Work)PoetryListView.SelectedItem);
-
         }
     }
 }

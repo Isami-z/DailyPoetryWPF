@@ -1,5 +1,6 @@
 ﻿using DailyPoetryWPF.Models;
 using DailyPoetryWPF.Services;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -16,6 +17,8 @@ namespace DailyPoetryWPF.ViewModels
     {
         private IPoetryService poetryService;
 
+        private Favorite favorite = new Favorite();
+
         private Work poetryItem;
         public Work PoetryItem
         {
@@ -26,13 +29,38 @@ namespace DailyPoetryWPF.ViewModels
             set { SetProperty(ref poetryItem, value); }
         }
 
+        private bool isFavorite;
+        public bool IsFavorite
+        {
+            get { return isFavorite; }
+            set { SetProperty(ref isFavorite, value); }
+        }
+
+        public DelegateCommand FavoriteCommand { get; private set; }
+        private async void favoriteCommand()
+        {
+            if (IsFavorite == true)
+            {
+                await poetryService.InsertFavorite(favorite);
+            }
+            else
+            {
+                favorite.PoetryId = PoetryItem.Id;
+                await poetryService.DeleteFavorite(favorite);
+            }
+        }
+
         public DetailPageViewModel(IPoetryService _poetryService)
         {
             poetryService = _poetryService;
-            poetryService.GetWorkById(10001).ContinueWith(t => { PoetryItem = t.Result; poetryItem.Annotation = OptimizeChineseText(poetryItem.Annotation);
-                poetryItem.Translation = OptimizeChineseText(poetryItem.Translation);
-                poetryItem.Appreciation = OptimizeChineseText(poetryItem.Appreciation);
-            });
+
+            FavoriteCommand = new DelegateCommand(favoriteCommand);
+            //poetryService.GetWorkById(10001).ContinueWith(t =>
+            //{
+            //    PoetryItem = t.Result; poetryItem.Annotation = OptimizeChineseText(poetryItem.Annotation);
+            //    poetryItem.Translation = OptimizeChineseText(poetryItem.Translation);
+            //    poetryItem.Appreciation = OptimizeChineseText(poetryItem.Appreciation);
+            //});
         }
 
         private string OptimizeChineseText(string rawString)
@@ -51,7 +79,7 @@ namespace DailyPoetryWPF.ViewModels
             {
                 return rawString;
             }
-            
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -63,7 +91,7 @@ namespace DailyPoetryWPF.ViewModels
         {
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             //在这里处理导航到该页面时的逻辑
             if (navigationContext.Parameters["poetry"] != null)
@@ -72,6 +100,17 @@ namespace DailyPoetryWPF.ViewModels
                 poetryItem.Annotation = OptimizeChineseText(poetryItem.Annotation);
                 poetryItem.Translation = OptimizeChineseText(poetryItem.Translation);
                 poetryItem.Appreciation = OptimizeChineseText(poetryItem.Appreciation);
+
+                favorite = await poetryService.IsFavorite((int)poetryItem.Id);
+                if (favorite != null)
+                {
+                    IsFavorite = true;
+                }
+                else
+                {
+                    IsFavorite = false;
+                    favorite = new Favorite();
+                }
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DailyPoetryWPF.Models;
 [Table("works")]
-public  class Work
+public class Work
 {
     [PrimaryKey]
     [Column("id")]

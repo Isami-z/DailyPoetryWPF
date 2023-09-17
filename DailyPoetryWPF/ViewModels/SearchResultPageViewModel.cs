@@ -179,7 +179,7 @@ namespace DailyPoetryWPF.ViewModels
 
             DoSearch();
 
-            
+
         }
 
         //public DelegateCommand SearchFromInternetCommand { get; private set; }
@@ -323,7 +323,7 @@ namespace DailyPoetryWPF.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-           
+
         }
 
         public SearchResultPageViewModel(IPoetryService _poetryService,

@@ -232,7 +232,7 @@
                 </StackPanel>
             </RadioButton>
             
-            <RadioButton Style="{DynamicResource NavigationButton}"
+            <!--<RadioButton Style="{DynamicResource NavigationButton}"
                          VerticalAlignment="Bottom"
                          Command="{Binding NavigateCommand}"
                          CommandParameter="DetailPage">
@@ -241,7 +241,7 @@
                                Text="&#xE713;" />
                     <TextBlock Text="详情页测试" />
                 </StackPanel>
-            </RadioButton>
+            </RadioButton>-->
         </StackPanel>
 
         <Frame Grid.Column="1"
